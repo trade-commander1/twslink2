@@ -1,0 +1,612 @@
+DefineDLLFunc: "TWSLINK2.DLL",int, "REGISTER_CONTRACT",
+                  LPSTR,{symbol}
+                  LPSTR,{sectype}
+                  LPSTR,{currency}
+                  LPSTR,{exchange}
+                  LPSTR,{primaryExchange}
+                  LPSTR,{expiry}
+                  LPSTR,{right}
+                  double,{strike}
+                  LPSTR,{multiplier}
+                  int,{expired}
+                  double;{mintick}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "REGISTER_CONTRACT2",
+                  LPSTR,{symbol}
+                  LPSTR,{sectype}
+                  LPSTR,{currency}
+                  LPSTR,{exchange}
+                  LPSTR,{expiry}
+                  LPSTR,{right}
+                  double,{strike}
+                  LPSTR;{multiplier}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "REGISTER_CONTRACT_XML",
+                  LPSTR,{pathandfile}
+                  int;{overwrite_load_flag}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "REGISTER_CONTRACT_XML_STYLE",
+                  LPSTR;{pathandfile}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "GET_CONTRACTUID_LIST",
+                  LPSTR,{symbol}
+                  LPSTR,{sectype}
+                  LPSTR,{currency}
+                  LPSTR,{exchange}
+                  LPSTR,{primaryExchange}
+                  LPSTR,{expiry}
+                  LPSTR,{right}
+                  double,{strike}
+                  LPSTR,{multiplier}
+                  LPSTR,{delimiter}
+                  LPSTR;{alias}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "WAIT_FOR_ACCEPTED",
+                  int,{uicontract}
+                  int;{timeoutmilliseconds}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "ADD_COMBO_LEG",
+                  int,{uicontract}
+                  int,{conid}
+                  int,{ratio}
+                  int,{openClose}
+                  LPSTR,{action}
+                  LPSTR,{exchange}
+                  int,{shortsaleslot}
+                  LPSTR;{designatedlocation}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "REM_COMBO_LEG",
+                  int,{uicontract}
+                  int,{conid}
+                  int,{ratio}
+                  int,{openClose}
+                  LPSTR,{action}
+                  LPSTR,{exchange}
+                  int,{shortsaleslot}
+                  LPSTR;{designatedlocation}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "REQ_MARKET_DATA",
+                  int,{contractuid}
+                  int,{subscribe}
+                  LPSTR,{generictick}
+                  int;{snapshot_flag}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "REQ_MARKET_DEPTH",
+                  int,{contractuid}
+                  int,{subscribe}
+                  int;{numrows}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "REQ_BAR_DATA",
+                  int,{contractuid}
+                  int,{subscribe}
+                  int,{barsize}
+                  int,{whatotshow}
+                  int;{rthonly_flag}
+
+DefineDLLFunc: "TWSLINK2.DLL",double, "GET_MARKET_DATA",
+                  int,{contractuid}
+                  int,{type}
+                  int,{subtype}
+                  int;{latest_flag}
+
+DefineDLLFunc: "TWSLINK2.DLL",double, "GET_BAR_DATA",
+                  int,{contractuid}
+                  int,{type}
+                  int,{valueid}
+                  int,{size}
+                  int;{idx}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "GET_MARKET_DEPTH",
+                  int,{contractuid}
+                  int,{side}
+                  int,{position}
+                  int;{type}
+
+DefineDLLFunc: "TWSLINK2.DLL",double, "GET_MARKET_DEPTH2",
+                  int,{contractuid}
+                  int,{side}
+                  int,{position}
+                  int;{type}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "GET_TICK",
+                  int,{contractuid}
+                  int;{timeout}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "WAIT_FOR_TICK",
+                  int,{uidfilter}
+                  int,{tickfilter}
+                  int;{timeout}
+
+DefineDLLFunc: "TWSLINK2.DLL",double, "EXTRACT_MARKET_DATA",
+                  int,{idx}
+                  LPSTR;{quotestream}
+
+DefineDLLFunc: "TWSLINK2.DLL",double, "VALIDATE_PRICE",
+                  int,{contractid}
+                  double,{Price}
+                  int;{ceil_flag}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "PIPS",
+                  int,{contractid}
+                  double;{Price}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "EXTRACT_ARRAY_VALUE",
+                  int,{idx}
+                  LPSTR,{quotestream}
+                  LPSTR;{delim}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "WAIT_FOR_REQ_PROCESSED",
+                  int;{timeoutmilliseconds}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "REQ_ACC_UPDATE",
+                  LPSTR,{accname}
+                  int,{subscribe}
+                  int;{timeoutmilliseconds}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "WAITDLL",
+                  int;{timeoutmilliseconds}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "WAIT_FOR_EVENT",
+                  int;{timeout}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "GET_EVENT_VAL",
+                  int,{uid}
+                  int;{valueid}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "GET_EVENT_VAL_I",
+                  int,{uid}
+                  int;{valueid}
+
+DefineDLLFunc: "TWSLINK2.DLL",double, "GET_EVENT_VAL_D",
+                  int,{uid}
+                  int;{valueid}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "START_APPLICATION",
+                  LPSTR,{commandline}
+                  LPSTR,{startupdir}
+                  int;{timeout}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "GET_CONTRACT_STATUS",
+                  int;{uidcontract}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "PLACE_ORDER",
+                  int,{contractid}
+                  int,{uidorder}
+                  LPSTR,{action}
+                  LPSTR,{ordertype}
+                  int,{totalquantitiy}
+                  double,{limitprice}
+                  double,{auxprice}
+                  LPSTR,{tif}
+                  int,{transmit}
+                  int;{uidparentorder}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "TOGGLE_ORDER",
+                  int,{contractid}
+                  int,{uidorder}
+                  int,{lmtpips}
+                  int,{stppips}
+                  int,{newSize}
+                  int;{transmit}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "TOGGLE_ORDER_PCT",
+                  int,{contractid}
+                  int,{uidorder}
+                  double,{absolute_percentage_change}
+                  double,{stppct}
+                  int,{newSize}
+                  int;{transmit}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "SET_ORDER_VAL",
+                  int,{uidorder}
+                  int,{valueid}
+                  LPSTR,{val}
+                  int;{transmit}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "GET_ORDER_VAL",
+                  int,{uidorder}
+                  int,{valueid}
+                  LPSTR;{extraparam}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "TRANSMIT",
+                  int;{uidorder}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "GET_ORDERUID_LIST",
+                  int,{contractid}
+                  LPSTR,{action}
+                  LPSTR,{type}
+                  int,{status}
+                  int,{isdead}
+                  double,{lowerprice}
+                  double,{upperprice}
+                  LPSTR,{exchange}
+                  LPSTR;{orderref}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "GET_OPEN_ORDERUID_LIST",
+                  int,{contractid}
+                  LPSTR,{action}
+                  LPSTR,{type}
+                  double,{priceabove}
+                  double,{pricebelow}
+                  LPSTR,{exchange}
+                  LPSTR;{orderref}
+
+DefineDLLFunc: "TWSLINK2.DLL",double, "GET_EXECUTION_PRICE",
+                  int,{uidorder}
+                  int,{type}
+                  int;{idx}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "CONVERT_ID",
+                  int,{sourceid}
+                  int;{conversiontype}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "CONVERT_ID_STRING",
+                  LPSTR,{sourcestring}
+                  int;{conversiontype}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "SET_FA_MEMBERS",
+                  int,{uidorder}
+                  LPSTR,{account}
+                  LPSTR,{faGroup}
+                  LPSTR,{faProfile}
+                  LPSTR,{faMethod}
+                  LPSTR,{faPercentage}
+                  int;{transmit}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "WAIT_FOR_ORDER_STATUS",
+                  int,{uidorder}
+                  int,{statusid}
+                  int,{timeoutmilliseconds}
+                  int;{statusidbreak}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "WAIT_FOR_FILLED",
+                  int,{uidorder}
+                  int;{timeoutmilliseconds}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "WAIT_FOR_SUBMITTED",
+                  int,{uidorder}
+                  int,{timeoutmilliseconds}
+                  int;{sub_stat_only}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "WAIT_FOR_ORDER_STATUS_RNG",
+                  int,{uidorder}
+                  int,{lowerstatusid}
+                  int,{upperstatusid}
+                  int,{timeoutmilliseconds}
+                  int;{statusidbreak}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "GET_ORDER_STATUS",
+                  int;{uidorder}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "GET_ORDER_ERROR",
+                  int;{uidorder}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "ORDER_MODIFIABLE",
+                  int;{uidorder}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "GET_ACC_VAL",
+                  int,{idaccval}
+                  LPSTR,{currency}
+                  LPSTR,{accountlist}
+                  int;{valtype}
+
+DefineDLLFunc: "TWSLINK2.DLL",double, "GET_MARKET_VAL",
+                  LPSTR,{currency}
+                  int,{idaccval}
+                  LPSTR;{accounts}
+
+DefineDLLFunc: "TWSLINK2.DLL",double, "GET_PORTFOLIO_VAL",
+                  int,{uid}
+                  int,{idaccval}
+                  LPSTR;{accounts}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "GET_CONTRACT_VAL",
+                  int,{contractid}
+                  int,{idaccval}
+                  LPSTR,{param}
+                  LPSTR;{accounts}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "SET_CONTRACT_VAL",
+                  int,{uid}
+                  int,{idvalue}
+                  LPSTR;{pValue}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "GET_BASECURRENCY",
+                  LPSTR;{accname}
+
+DefineDLLFunc: "TWSLINK2.DLL",double, "GET_CASH_BALANCE",
+                  LPSTR,{currency}
+                  LPSTR;{accname}
+
+DefineDLLFunc: "TWSLINK2.DLL",double, "GET_EXCHANGE_RATE",
+                  LPSTR,{currency1}
+                  LPSTR;{currency2}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "GET_ACC_NAME",
+                  int;{index}
+
+DefineDLLFunc: "TWSLINK2.DLL",double, "GET_POSITIONS",
+                  int,{contractid}
+                  LPSTR;{accname}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "CANCEL_ORDER",
+                  int,{uidorder}
+                  int,{contractid}
+                  LPSTR,{otypefilter}
+                  int,{pending}
+                  LPSTR;{side}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "CLOSE_CONTRACT",
+                  int,{contractid}
+                  double,{price}
+                  LPSTR,{account}
+                  LPSTR;{typefilter}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "CLOSE_CASH_POSITION",
+                  LPSTR,{currency}
+                  double,{price}
+                  LPSTR;{account}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "FORCE_CONTRACT",
+                  int,{contractid}
+                  double,{newSize}
+                  int,{isRelative}
+                  double,{price}
+                  LPSTR,{account}
+                  LPSTR;{typefilter}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "CONNECT_XML",
+                  int,{xmlid}
+                  int;{timeout}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "CONNECT",
+                  LPSTR,{sHost}
+                  int,{iport}
+                  int,{startingClientID}
+                  int;{timeout}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "DISCONNECT";
+DefineDLLFunc: "TWSLINK2.DLL",int, "SET_DLL_PARAM",
+                  LPSTR,{sParam}
+                  LPSTR;{sVal}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "DISPOSE",
+                  int;{code}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "GET_DLL_PARAM",
+                  LPSTR,{sParam}
+                  int,{lParam}
+                  LPSTR;{sParam2}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "GET_CONNECTED";
+DefineDLLFunc: "TWSLINK2.DLL",int, "CUSTOMCOMMENT",
+                  LPSTR,{sComment}
+                  int,{loglevel}
+                  int;{errorlevel}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "CUSTOMLOG",
+                  LPSTR,{logfilename}
+                  LPSTR,{sComment}
+                  int;{filesize}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "DELETE_CUSTOMLOG",
+                  LPSTR;{logfilename}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "SEND_MAIL",
+                  LPSTR,{originator}
+                  LPSTR,{recipients}
+                  LPSTR,{subject}
+                  LPSTR,{text}
+                  LPSTR,{attachments}
+                  LPSTR,{smtpserver}
+                  int,{smtp_port}
+                  int,{need_authentication}
+                  LPSTR,{user}
+                  LPSTR;{userpw}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "SEND_REPORT",
+                  LPSTR,{originator}
+                  LPSTR,{subject}
+                  LPSTR,{text}
+                  LPSTR;{attachments}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "TO_FILE",
+                  LPSTR,{sFileName}
+                  LPSTR,{sText}
+                  int;{write_mode}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "FROM_FILE",
+                  LPSTR,{sFileName}
+                  int;{remove_control_char_flag}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "GET_INT_VAR",
+                  LPSTR;{Name}
+
+DefineDLLFunc: "TWSLINK2.DLL",double, "GET_DBL_VAR",
+                  LPSTR;{Name}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "GET_STR_VAR",
+                  LPSTR;{Name}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "SET_INT_VAR",
+                  LPSTR,{Name}
+                  int;{val}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "SET_DBL_VAR",
+                  LPSTR,{Name}
+                  double;{val}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "SET_STR_VAR",
+                  LPSTR,{Name}
+                  LPSTR;{val}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "REM_INT_VAR",
+                  LPSTR;{Name}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "REM_DBL_VAR",
+                  LPSTR;{Name}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "REM_STR_VAR",
+                  LPSTR;{Name}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "GET_INT",
+                  LPSTR,{Name}
+                  int;{fail}
+
+DefineDLLFunc: "TWSLINK2.DLL",double, "GET_DBL",
+                  LPSTR,{Name}
+                  double;{fail}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "GET_STR",
+                  LPSTR,{Name}
+                  LPSTR;{fail}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "ADD_INT",
+                  LPSTR,{Name}
+                  int;{val}
+
+DefineDLLFunc: "TWSLINK2.DLL",double, "ADD_DBL",
+                  LPSTR,{Name}
+                  double;{val}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "NEWS_BULLETIN",
+                  int,{request}
+                  int;{allmessages}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "REQ_HIST_DATA",
+                  int,{uidcontract}
+                  LPSTR,{endTime}
+                  LPSTR,{duration}
+                  LPSTR,{barSizeSetting}
+                  LPSTR,{whatToShow}
+                  int,{useRTH}
+                  int;{formatDate}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "REQ_CURRENT_TIME",
+                  int;{timeout}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "REQ_SCANNER_PARAMETER",
+                  int;{force}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "REQ_SCANNER_SUBSCRIPTION",
+                  int,{numberOfRows}
+                  LPSTR,{instrument}
+                  LPSTR,{locationCode}
+                  LPSTR,{scanCode}
+                  double,{abovePrice}
+                  double,{belowPrice}
+                  int,{aboveVolume}
+                  double,{marketCapAbove}
+                  double,{marketCapBelow}
+                  LPSTR,{stockTypeFilter}
+                  LPSTR,{moodyRatingAbove}
+                  LPSTR,{moodyRatingBelow}
+                  LPSTR,{spRatingAbove}
+                  LPSTR,{spRatingBelow}
+                  int,{excludeConvertible}
+                  int,{averageOptionVolumeAbove}
+                  LPSTR,{scannerSettingPairs}
+                  double,{couponRateAbove}
+                  double,{couponRateBelow}
+                  LPSTR,{maturityDateAbove}
+                  LPSTR;{maturityDateBelow}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "CANCEL_SCANNER_SUBSCRIPTION",
+                  int;{id}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "DISCONNECT_DB",
+                  int;{uid}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "CONNECT_DB",
+                  int;{uid}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "SQL",
+                  int,{uid}
+                  LPSTR,{query}
+                  LPSTR,{sep}
+                  int,{timeout}
+                  LPSTR;{filename}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "SQL2",
+                  int,{uid}
+                  LPSTR,{query}
+                  LPSTR,{colsep}
+                  LPSTR;{rowsep}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "SET_EVENT_HANDLER",
+                  ,{callback_handle}
+                  int,{subscription_mask}
+                  int;{traget_thread_id}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "SET_EVENT_HANDLER_OLE",
+                  ,{callback_handle}
+                  int,{subscription_mask}
+                  int;{traget_thread_id}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "REM_EVENT_HANDLER",
+                  ,{pcb}
+                  int;{threadid}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "TIME_STRING",
+                  int,{time}
+                  LPSTR;{format}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "TIME_COMPONENT",
+                  int,{time}
+                  int;{component}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "SECONDS_1970";
+DefineDLLFunc: "TWSLINK2.DLL",double, "MILLISECONDS_1970";
+DefineDLLFunc: "TWSLINK2.DLL",int, "SET_TIMER",
+                  int;{delay}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "KILL_TIMER",
+                  int;{id}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "PLAY_SOUND",
+                  LPSTR,{soundfilename}
+                  int,{loop}
+                  int;{exclusive}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "REQ_FUNDAMENTAL_DATA",
+                  int,{uidcontract}
+                  LPSTR,{reportype}
+                  LPSTR;{filename}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "REQ_EXECUTION_DATA",
+                  int,{clientid}
+                  LPSTR,{account}
+                  LPSTR,{time}
+                  LPSTR,{symbol}
+                  LPSTR,{sectype}
+                  LPSTR,{exchange}
+                  LPSTR;{side}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "PARSE_XML",
+                  LPSTR,{data}
+                  int;{isfile}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "LOGGER",
+                  int,{i1}
+                  int,{i2}
+                  double,{d1}
+                  double,{d2}
+                  LPSTR,{s1}
+                  LPSTR;{s2}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "LOGGER2",
+                  int,{i1}
+                  int,{i2}
+                  int,{i3}
+                  int,{i4}
+                  int,{i5}
+                  int,{i6}
+                  int,{i7}
+                  int;{i8}
+
+DefineDLLFunc: "TWSLINK2.DLL",LPSTR, "TEST_1",
+                  int,{i}
+                  ,{ipt}
+                  double,{d}
+                  LPSTR;{s}
+

@@ -1,0 +1,146 @@
+
+
+
+{Note that I have tried this with and without the call to GET_CONNECTED(). Same result either way. Only called once right after chart loads.
+IB_TWS_SocketPort is a strategy input with value = 7496. SendOrdersTo_IB is a global variable.}
+
+
+Method bool IB_Connect()
+var: int IsConnected;
+begin
+
+	IsConnected = GET_CONNECTED();
+	If IsConnected <= 0 then
+		IsConnected = CONNECT( "", IB_TWS_SocketPort, 1, 60000 );			// If no IP address for 1st parameter, localhost (same PC as TWS) is assumed.
+
+	Switch IsConnected begin
+	Case 1,2,3:
+		Print_Debug("Connected to IB TWS and IB server");
+		Return true;
+	Default:
+		Print_Debug("***WARNING: Unable to connect to TWS/IB! ***");
+		SendOrdersTo_IB = false;
+	end;
+	
+	Return false;		// Connect failed
+end;
+
+
+
+
+
+{Note that IB_SecType is a global variable with a value of "CASH", "FUT", or "STK".
+UIDContract is a global variable that is set here.}
+
+
+Method bool IB_Register_Symbol()
+var: string UIDString, int UID, int rc;
+begin
+
+	If IB_Connect() = false then		// Will not try to connect again if already connected. Must be connected before calling WAIT_FOR_ACCEPTED, or call will fail.
+		Return(false); 					// Registration failed, not connected.
+		
+	If IB_SecType = "CASH" then
+		UIDContract = REGISTER_CONTRACT2(LeftStr(symbol,3),"CASH",RightStr(symbol,3),"IDEALPRO","","",0.0,"")
+	Else if IB_SecType = "FUT" then
+		UIDContract = REGISTER_CONTRACT2(FuturesSymbol,"FUT","USD","GLOBEX",FuturesExpiration,"",0.0,"50")		// Multiplier for ES is $50 per big point.
+	Else
+		UIDContract = REGISTER_CONTRACT2(symbol,"STK","USD","SMART","","",0.0,"");
+
+	rc = WAIT_FOR_ACCEPTED( UIDContract, 10000 );	// Wait up to 10 seconds for TWSLink to synchronize contract ID with IB's conid.
+			
+	If UIDContract <= 0 or rc <> 1 then
+	Begin 
+		Print_Debug("***ERROR: Unable to register symbol "+symbol+". Error #"+numtostr(UIDContract,0) + ", WAIT_FOR_ACCEPTED return code = " + numtostr(rc,0) );
+		UIDContract = 0;
+		SendOrdersTo_IB = false;
+		Return(false);	// Failed - not registered, or no return value from WAIT_FOR_ACCEPTED.
+	end;
+
+	Print_Debug("Successfully registered symbol with TWS API. Contract UID="+numtostr(UIDContract,0));		
+	rc = REQ_MARKET_DATA (UIDContract, 1,"",0);		// Subscribe to market data for this symbol.
+	Return(true);
+
+end;
+
+
+
+
+{IB_Account is a global variable = the FA sub-account number for this symbol/position. Always equals a single sub-account for this strategy.
+IB_MarketPosition is a global variable set here. SendOrdersTo_IB is a global variable set in the connect and registration code above.
+This code is called when chart is first loaded, and at the close of every bar. I use Kase bars, so time between calls can vary from minutes to days.
+The problem TWSLink causes is when an incorrect position is returned for the Contract UID and sub-account.}
+
+
+Method int IB_Get_MarketPosition()
+var: int StopOrderID, string OrderAction, string ParentOrderString, int ParentOrderID, string This_Account;
+begin
+
+	If SendOrdersTo_IB = False then
+		Return 0;
+
+	This_Account = IB_Account;
+	IB_MarketPosition = GET_POSITIONS(UIDContract,This_Account);	// UIDContract is a global variable assigned its value by registration code above.
+
+	If IB_MarketPosition > 10000000000 or IB_MarketPosition < -10000000000 then
+	Begin
+		IB_MarketPosition = 0;		// Take no action. We are flying blind!
+		Print_Debug("***ERROR: TWS-Link License server failed. Intervention Required!");
+		Return(0);
+	end;
+
+	// Sanity check protective stop - do we have one, and is it going the right direction?
+	StopOrderID = IB_Get_Stop_Order_ID("S", This_Account);		// Call another set of functions to find stop order.
+	OrderAction = "";
+	If StopOrderID > 0 then
+		OrderAction = GET_ORDER_VAL(StopOrderID,51,"");
+
+	If IB_MarketPosition <> 0 then
+	Begin
+		{ Here we check to see if a stop order with the correct action exists, because we have a position for this symbol and account }		
+				
+		Return( IB_MarketPosition );		
+	end
+	Else Begin
+		{ Here we check to be sure there is NO stop order still open, because position is supposed to be flat }		
+		Print_Debug("Position is flat - no position.");
+	end;
+	Return 0;			// No open position
+
+end;
+
+
+
+
+{This_Contract, This_Account are the same UIDContract and account values used by code above.
+This_Exchange depends on the type of security - "IDEALPRO", "GLOBEX", or "SMART".
+This_Reference = "AUTO_Stop", or "AUTO_Parent".
+The problem that TWSLink causes is when it returns a different Contract UID than the one IB's TWS is using for the order. After that, any call to GET_OPEN_ORDERUID_LIST will never find the order again. }
+
+
+Method int IB_Find_Open_Order_For_Account( int This_Contract, string This_Account, string This_Exchange, string This_Reference )
+var: string Order_ID_String, int OrderID;
+Begin
+
+	// Retrieve the entire list of open orders for this Contract, and return the first order ID that matches the FA sub-account we want.
+	Extract_Counter = 0;
+	Order_List = GET_OPEN_ORDERUID_LIST(This_Contract,"","",0.0,0.0,This_Exchange, This_Reference);
+	Order_ID_String = EXTRACT_ARRAY_VALUE(Extract_Counter, Order_List, ",");
+	OrderID = StrToNum( Order_ID_String  );
+	
+	While OrderID <> 0
+	Begin
+		If GET_ORDER_VAL( OrderID, 48, "" ) = This_Account then
+			Return( OrderID );
+		Extract_Counter = Extract_Counter + 1;
+		Order_ID_String = EXTRACT_ARRAY_VALUE(Extract_Counter, Order_List, ",");
+		OrderID = StrToNum( Order_ID_String  );
+	end;
+
+	Return (0);		// No open orders for This_Account
+
+end;
+
+
+
+End of File

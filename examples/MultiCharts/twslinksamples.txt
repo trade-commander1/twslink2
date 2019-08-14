@@ -1,0 +1,68 @@
+{***************************************************************************************
+ Written by: trade-commander
+ Description: this strategy demonstrates the use of TWSLink2
+ WARNING: don't apply this strategy for live accounts. it mostly generates casualties.
+ a) connect TWSLink2 to TWS (do this once only)
+ b) register MSFT contract (do this once only)
+ c) place a buy 100 MSFT shares at market order
+***************************************************************************************}
+
+Variables:
+	    uidMSFT(0),     		{MSFT contract unique id}
+		uidOrderMSFT(0),    	{MSFT order unique id}
+		Initialized(0);			{init flag flag}
+{--- load dll functions ---}
+DefineDLLFunc: "TWSLINK2.DLL",int, "CONNECT",
+                  LPSTR,{sHost}
+                  int,{iport}
+                  int,{startingClientID}
+                  int;{timeout}
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "REGISTER_CONTRACT",
+                  LPSTR,{symbol}
+                  LPSTR,{sectype}
+                  LPSTR,{currency}
+                  LPSTR,{exchange}
+                  LPSTR,{primaryExchange}
+                  LPSTR,{expiry}
+                  LPSTR,{right}
+                  double,{strike}
+                  LPSTR,{multiplier}
+                  int,{expired}
+                  double;{mintick}
+
+
+DefineDLLFunc: "TWSLINK2.DLL",int, "PLACE_ORDER",
+                  int,{contractid}
+                  int,{uidorder}
+                  LPSTR,{action}
+                  LPSTR,{ordertype}
+                  int,{totalquantitiy}
+                  double,{limitprice}
+                  double,{auxprice}
+                  LPSTR,{tif}
+                  int,{transmit}
+                  int;{uidparentorder}
+
+
+{ === how this strategy works ===
+A Signal based on CCI signals a long or a short trade. every new trade gets secured by an attached stop order (secition 1.1, secition 1.2).
+If the market price moves to your advantage, the stop order gets trailed (no native trail stop attached) (section 2.1,  section 2.2). 
+The absolut trail amount is given above by parameter 'ITrail'.
+If the price falls below your stop, see parameter 'IStop', your position gets closed and stop order cancelled. {section 3.1, section 3.2}.
+if the price falls below your trails stop,  your position gets closed and stop order cancelled. {section 4.1, section 4.2}.
+}
+
+{ DLL initialisation}
+if Initialized= 0 then begin
+
+	{connect to TWS / Gateway at standard port. make sure TWS or Gateway are setup to operate with API clients such as TWSLink2  (http://www.youtube.com/watch?v=53tmypRq5wI)}
+	CONNECT("",7496,1,50);
+	{register MSFT contract }
+	uidMSFT = REGISTER_CONTRACT("MSFT","STK", "USD", "SMART", "", "","", 0.0, "",0,0.0);
+	{ place MSFT buy 100 at market order }
+	uidOrderMSFT=PLACE_ORDER(uidMSFT,0, "BUY", "MKT",100,0.0,0.0,"GTC", 1,0);
+	Initialized=1;
+end;
+// ...
+// use TWSLinkBaTe to create your concepts with TWSLink, then integrate with easy language. Good luck!
